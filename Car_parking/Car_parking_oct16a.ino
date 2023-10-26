@@ -1,14 +1,12 @@
 #include <LiquidCrystal_I2C.h>
 #include <Servo.h>
 
-LiquidCrystal_I2C lcd(0x27, 16, 2);  //a4 a5
-
+LiquidCrystal_I2C lcd(0x27, 16, 2);  
 const int ECHO_PIN = 10;
 const int TRIG_PIN = 9;
-
-Servo myservo;  
 int IR1 = 5;
 int IR2 = 6;
+Servo myservo;  
 
 void setup() {
    Serial.begin(9600);
@@ -16,10 +14,9 @@ void setup() {
    pinMode(TRIG_PIN, OUTPUT);
    pinMode(IR1,INPUT);
    pinMode(IR2,INPUT);
-    
+   
    myservo.attach(11);
    myservo.write(0); 
-   
    lcd.init();
    lcd.backlight();
 }
@@ -33,12 +30,9 @@ void loop() {
 
    float dura = pulseIn(ECHO_PIN, HIGH);
    float dista = 0.017 * dura;
-   
    Serial.println(dista);
-
    int ir1_val = digitalRead(IR1);
    int ir2_val = digitalRead(IR2);
-
    lcd.clear();
    
 if (ir1_val == LOW) {
@@ -50,7 +44,7 @@ if (ir1_val == LOW) {
       lcd.print("Slot 1 is empty");
       delay(500);  
    } 
-
+   
    if (ir2_val == LOW) {
       lcd.setCursor(1,1);
       lcd.print("Slot 2 is full");
@@ -86,9 +80,22 @@ if (ir1_val == LOW) {
 // Connections
 
 // Arduino > Lcd
-// 5v > Vcc
-// Gnd > Gnd
-// SCL >
-// SDA
-// Arduino > Ir
+// 5v  >  Vcc
+// Gnd >  Gnd
+// SCL >  A5
+// SDA >  A4
+
+// Arduino > Ir1
+//5v  >  Vcc
+//Gnd >  Gnd
+//D5  >  Out
+
+//Arduino > Ir2
+//5v  > vcc
+//Gnd > Gnd
+//D6  > Out
+
 // Arduino > Servo
+//5v  > vcc
+//Gnd > Gnd
+//D11 > Signal
